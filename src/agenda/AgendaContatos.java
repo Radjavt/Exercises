@@ -8,11 +8,9 @@ public class AgendaContatos {
     public AgendaContatos() {
         contatos = new ArrayList<>();
     }
-
     public void adicionarContato(Contato contato) {
         contatos.add(contato);
     }
-
     public void removerContato(String nome) {
         Contato contatoRemovido = null;
         for (Contato contato : contatos) {
@@ -29,7 +27,6 @@ public class AgendaContatos {
             System.out.println("Contato com o nome" + nome + " não encontrado na agenda.");
         }
     }
-
     public String procurarContato(String nome) {
         for(Contato contato : contatos){
             if(contato.getNome().equalsIgnoreCase(nome)){
@@ -38,7 +35,6 @@ public class AgendaContatos {
         }
         return "Contato não encontrado.";
     }
-
     public void exibirContatos(){
         if(!contatos.isEmpty()){
             System.out.println("Lista de contatos:");
