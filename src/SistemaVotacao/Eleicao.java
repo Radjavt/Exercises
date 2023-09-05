@@ -1,63 +1,86 @@
 package SistemaVotacao;
-import java.util.List;
-import java.util.Map;
+
 import java.util.HashMap;
+import java.util.Map;
 
 public class Eleicao {
-
     private Map<String, Turma> turmas;
-    private boolean votacaoInicio;
-    private boolean votacaoFim;
-    public Eleicao() {
-        this.turmas = new HashMap<>();
-        this.votacaoInicio = false;
-        this.votacaoFim = false;
-    }
-    public boolean cadastrarChapas(String turmaNome, Chapa chapa) {
-        if (turmas.containsKey(turmaNome) && !votacaoInicio) {
-            Turma turma = turmas.get(turmaNome);
-            return turma.adicionarChapa(chapa);
-        }
-        return false;
-    }
-    public boolean comeco(){
-        votacaoInicio = true;
-        return false;
-    }
-    public boolean fim(){
-        votacaoFim = true;
-        return false;
-    }
-    public boolean realizarVotacao(String turmaNome, String matriculaAluno, int chapaIndex){
-       if(turmas.containsKey(turmaNome) && !votacaoFim){
-           Turma turma = turmas.get(turmaNome);
-           List<Chapa> chapas = turma.getChapas();
-           if(chapaIndex >= 0 && chapaIndex < chapas.size()){
-               Chapa chapa = chapas.get(chapaIndex);
-               chapa.incrementarVotos();
-               return true;
-           }
-           }
-        return false;
-    }
-    public void emitirResultado(){
-        if(votacaoFim){
-        for(Map.Entry<String, Turma>entry : turmas.entrySet()) {
-            String turmaNome = entry.getKey();
-            Turma turma = entry.getValue();
-            System.out.println("Resultado da turma: "+turmaNome);
-            List<Chapa> chapas = turma.getChapas();
-            int totalVotos = chapas.stream().mapToInt(Chapa::getVotos).sum();
-            for(int i = 0; i < chapas.size(); i++){
-                Chapa chapa = chapas.get(i);
-                double porcen = (double) chapa.getVotos() / totalVotos * 100;
-                System.out.println("Chapa "+(i + 1)+": "+porcen+"% dos votos");
-            }
-          }
+    private boolean votacaoAberta;
 
+    public Eleicao() {
+        turmas = new HashMap<>();
+        votacaoAberta = false;
+    }
+
+    public void cadastrarChapas(String turmaNome, String lider1, String vice1, String lider2, String vice2) {
+        if (votacaoAberta) {
+            System.out.println("Não é possível cadastrar chapas durante a votação.");
+            return;
+        }
+
+        Turma turma = turmas.get(turmaNome);
+
+        if (turma == null) {
+            criarTurma(turmaNome);
+            turma = turmas.get(turmaNome);
+        }
+
+        turma.cadastrarChapa(new Chapa(lider1, vice1));
+        turma.cadastrarChapa(new Chapa(lider2, vice2));
+        System.out.println("Chapas cadastradas com sucesso na turma " + turmaNome);
+    }
+
+
+    public void criarTurma(String turmaNome) {
+        if (turmas.containsKey(turmaNome)) {
+            System.out.println("Turma já existe.");
+            return;
+        }
+
+        turmas.put(turmaNome, new Turma(turmaNome));
+        System.out.println("Turma " + turmaNome + " criada com sucesso.");
+    }
+
+    public void iniciarProcessoDeVotacao(String turma) {
+        if (votacaoAberta) {
+            System.out.println("O processo de votação já foi iniciado.");
+        } else {
+            votacaoAberta = true;
+            System.out.println("Processo de votação iniciado.");
         }
     }
-    public Map<Object, Object> getTurmas() {
-        return null;
+
+    public void encerrarProcessoDeVotacao(String turmaEncerrar) {
+        if (!votacaoAberta) {
+            System.out.println("O processo de votação ainda não foi iniciado.");
+        } else {
+            votacaoAberta = false;
+            System.out.println("Processo de votação encerrado.");
+        }
+    }
+
+    public void realizarVotacao(String turmaNome, int chapaNumero) {
+        Turma turma = turmas.get(turmaNome);
+
+        if (turma == null) {
+            System.out.println("Turma não existe.");
+            return;
+        }
+
+        turma.votar(chapaNumero);
+    }
+
+
+    public void emitirResultado() {
+        if (votacaoAberta) {
+            System.out.println("O processo de votação ainda está em andamento.");
+            return;
+        }
+
+        for (Turma turma : turmas.values()) {
+            System.out.println("Resultado da turma " + turma.getNome() + ":");
+            turma.emitirResultado();
+            System.out.println();
+        }
     }
 }
