@@ -5,16 +5,16 @@ public class Main {
     public static void main(String[] args) {
 
     Eleicao eleicao = new Eleicao();
-    Scanner ler = new Scanner(System.in);
+    Scanner scanner = new Scanner(System.in);
 
         System.out.println(Menu.getMenu());
         System.out.println("Escolha uma opção: ");
-        int opcao = ler.nextInt();
+        int opcao = scanner.nextInt();
 
         while (true) {
             switch (opcao) {
                 case 1:
-                    cadastrarChapas(eleicao, ler);
+                    cadastrarChapas(eleicao, scanner); // erro de entrada na opcao digitar nome da turma e dessa forma não consigo testar o codigo.
                     break;
                 case 2:
                     eleicao.comeco();
@@ -23,26 +23,27 @@ public class Main {
                     eleicao.fim();
                     break;
                 case 4:
-                    realizarVotacao(eleicao, ler);
+                    realizarVotacao(eleicao, scanner);
                     break;
                 case 5:
                     eleicao.emitirResultado();
                     break;
                 case 6:
                     System.out.println("Saindo do sistema.");
-                    ler.close();
+                    scanner.close();
                     System.exit(0);
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
             System.out.println(Menu.getMenu());
             System.out.println("Escolha uma opção: ");
-            opcao = ler.nextInt();
+            opcao = scanner.nextInt();
         }
     }
 
     private static void cadastrarChapas(Eleicao eleicao, Scanner scanner) {
         if (!eleicao.comeco() && !eleicao.fim()) {
+
             System.out.print("Digite o nome da turma: ");
             String turmaNome = scanner.nextLine();
 
