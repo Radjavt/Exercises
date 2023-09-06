@@ -7,6 +7,17 @@ public class Main {
     Eleicao eleicao = new Eleicao();
     Scanner scanner = new Scanner(System.in);
 
+        eleicao.criarTurma("6A");
+        eleicao.criarTurma("7A");
+
+        Aluno aluno = new Aluno("123", "6A");
+        eleicao.registrarAluno(aluno);
+
+        Aluno aluno1 = new Aluno("321", "7A");
+        eleicao.registrarAluno(aluno1);
+
+        Professor professor = new Professor("456");
+        eleicao.registrarProfessor(professor);
         System.out.println(Menu.getMenu());
         System.out.println("Escolha uma opção: ");
         int opcao = scanner.nextInt();
@@ -14,6 +25,7 @@ public class Main {
         while (true) {
             switch (opcao) {
                 case 1:
+                    System.out.println("--------------------------------");
                     System.out.print("Nome da turma: ");
                     scanner.nextLine();
                     String turmaNome = scanner.nextLine();
@@ -25,6 +37,7 @@ public class Main {
                     String lider2 = scanner.nextLine();
                     System.out.print("Nome do vice-líder 2: ");
                     String vice2 = scanner.nextLine();
+                    System.out.println("--------------------------------");
                     eleicao.cadastrarChapas(turmaNome, lider1, vice1, lider2, vice2);
                     break;
                 case 2:
@@ -43,6 +56,8 @@ public class Main {
                     System.out.print("Nome da turma: ");
                     scanner.nextLine();
                     String turmaVotar = scanner.nextLine();
+                    System.out.print("Matrícula do aluno/professor: ");
+                    String matricula = scanner.nextLine();
                     System.out.print("Número da chapa: ");
                     int chapaNumero = scanner.nextInt();
                     eleicao.realizarVotacao(turmaVotar, chapaNumero);

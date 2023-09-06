@@ -5,12 +5,25 @@ import java.util.Map;
 
 public class Eleicao {
     private Map<String, Turma> turmas;
+    private Map<String, Aluno> alunos;
+    private Map<String, Professor> professores;
     private boolean votacaoAberta;
 
     public Eleicao() {
         turmas = new HashMap<>();
+        alunos = new HashMap<>();
+        professores = new HashMap<>();
         votacaoAberta = false;
     }
+
+    public void registrarAluno(Aluno aluno) {
+        alunos.put(aluno.getMatricula(), aluno);
+    }
+
+    public void registrarProfessor(Professor professor) {
+        professores.put(professor.getMatricula(), professor);
+    }
+
 
     public void cadastrarChapas(String turmaNome, String lider1, String vice1, String lider2, String vice2) {
         if (votacaoAberta) {
