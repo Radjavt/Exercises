@@ -9,7 +9,6 @@ public abstract class Menu {
                 "4 - Realizar uma votação\n" +
                 "5 - Emitir resultado\n" +
                 "6 - Sair do Sistema");
-
         return menu;
     }
 }
